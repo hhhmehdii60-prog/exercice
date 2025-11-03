@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع الاختبارات الأسبوعية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* التصميم العام */
+        :root {
+            --primary: #8A2BE2;
+            --primary-light: #9B4DFF;
+            --primary-dark: #6A1B9A;
+            --secondary: #E1BEE7;
+            --text: #333;
+            --light: #F3E5F5;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            color: var(--text);
+            min-height: 100vh;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            min-height: calc(100vh - 30px);
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            color: var(--white);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .btn {
+            background-color: var(--primary-light);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            padding: 30px 20px;
+            text-align: center;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .welcome-message {
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .welcome-message h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .welcome-message p {
+            font-size: 1.1rem;
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .start-btn {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            font-size: 1.3rem;
+            padding: 15px 40px;
+            border-radius: 50px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            width: 90%;
+            max-width: 300px;
+        }
+
+        /* نمط النماذج */
+        .form-container {
+            background-color: var(--light);
+            padding: 25px;
+            border-radius: var(--radius);
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+            width: 90%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        /* نمط لوحة المعلم */
+        .teacher-panel {
+            padding: 20px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--secondary);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .question-item, .result-item {
+            background-color: var(--white);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-content, .result-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .actions button {
+            margin-left: 0;
+        }
+
+        /* نمط الاختبار */
+        .quiz-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #quizHeader {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question {
+            background-color: var(--white);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: right;
+        }
+
+        .question-number {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .question-text {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background-color: var(--secondary);
+        }
+
+        .option.selected {
+            background-color: var(--primary-light);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .navigation button {
+            flex: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* نمط النتائج */
+        .result-container {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .score {
+            font-size: 3rem;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .correct-answers {
+            margin-top: 30px;
+            text-align: right;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .correct-answer {
+            background-color: #E8F5E9;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-right: 4px solid #4CAF50;
+        }
+
+        .incorrect-answer {
+            background-color: #FFEBEE;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-right: 4px solid #F44336;
+        }
+
+        /* تصميم متجاوب للشاشات الكبيرة */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 95%;
+            }
+            
+            header {
+                padding: 20px 30px;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .main-content {
+                padding: 50px 30px;
+            }
+            
+            .welcome-message h1 {
+                font-size: 2.2rem;
+            }
+            
+            .start-btn {
+                width: auto;
+                padding: 15px 50px;
+            }
+            
+            .teacher-panel {
+                padding: 30px;
+            }
+            
+            .quiz-container {
+                max-width: 800px;
+                padding: 30px;
+            }
+            
+            .navigation {
+                gap: 20px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1200px;
+            }
+        }
+
+        /* شريط التقدم */
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: var(--light);
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        /* الرسائل */
+        .message {
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border-right: 4px solid #4CAF50;
+        }
+
+        .error {
+            background-color: #FFEBEE;
+            color: #C62828;
+            border-right: 4px solid #F44336;
+        }
+
+        .info {
+            background-color: #E3F2FD;
+            color: #1565C0;
+            border-right: 4px solid #2196F3;
+        }
+
+        /* عرض النتيجة المؤقت */
+        .result-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .result-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow);
+        }
+
+        .result-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>موقع الاختبارات الأسبوعية</span>
+            </div>
+            <button id="teacherBtn" class="btn">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>الأستاد</span>
+            </button>
+        </header>
+
+        <div class="main-content" id="mainScreen">
+            <div class="welcome-message">
+                <h1>مرحباً بكم في موقع الاختبارات الأسبوعية</h1>
+                <p>اختر مستوى الصف وأدخل بياناتك لبدء الاختبار</p>
+            </div>
+            <button id="startQuizBtn" class="btn start-btn">
+                <i class="fas fa-play-circle"></i>
+                بدء الاختبار
+            </button>
+        </div>
+
+        <!-- نموذج دخول الطالب -->
+        <div id="studentForm" class="form-container hidden">
+            <h2>معلومات الطالب</h2>
+            <div class="form-group">
+                <label for="studentName">اسم الطالب:</label>
+                <input type="text" id="studentName" class="form-control" placeholder="أدخل اسمك">
+            </div>
+            <div class="form-group">
+                <label for="studentId">الرقم التسلسلي:</label>
+                <input type="text" id="studentId" class="form-control" placeholder="أدخل رقمك التسلسلي">
+            </div>
+            <div class="form-group">
+                <label for="studentLevel">المستوى:</label>
+                <select id="studentLevel" class="form-control">
+                    <option value="1apic">1apic</option>
+                    <option value="2apic">2apic</option>
+                    <option value="3apic">3apic</option>
+                </select>
+            </div>
+            <button id="confirmStudentBtn" class="btn">بدء الاختبار</button>
+        </div>
+
+        <!-- نموذج دخول المعلم -->
+        <div id="teacherLogin" class="form-container hidden">
+            <h2>دخول الأستاد</h2>
+            <div class="form-group">
+                <label for="teacherCode">الكود السري:</label>
+                <input type="password" id="teacherCode" class="form-control" placeholder="أدخل الكود السري">
+            </div>
+            <button id="confirmTeacherBtn" class="btn">دخول</button>
+        </div>
+
+        <!-- لوحة تحكم المعلم -->
+        <div id="teacherPanel" class="teacher-panel hidden">
+            <div class="panel-header">
+                <h2>لوحة تحكم الأستاد</h2>
+                <button id="logoutTeacherBtn" class="btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    خروج
+                </button>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="questions">إدارة الأسئلة</div>
+                <div class="tab" data-tab="results">نتائج الطلاب</div>
+                <div class="tab" data-tab="newTest">إنشاء اختبار جديد</div>
+            </div>
+
+            <div id="questionsTab" class="tab-content active">
+                <h3>إدارة الأسئلة</h3>
+                <div class="form-group">
+                    <label for="questionLevel">المستوى:</label>
+                    <select id="questionLevel" class="form-control">
+                        <option value="1apic">1apic</option>
+                        <option value="2apic">2apic</option>
+                        <option value="3apic">3apic</option>
+                    </select>
+                </div>
+                <button id="addQuestionBtn" class="btn">
+                    <i class="fas fa-plus-circle"></i>
+                    إضافة سؤال جديد
+                </button>
+                <div id="questionsList">
+                    <!-- سيتم ملء الأسئلة هنا بواسطة JavaScript -->
+                </div>
+            </div>
+
+            <div id="resultsTab" class="tab-content">
+                <h3>نتائج الطلاب</h3>
+                <div class="form-group">
+                    <label for="resultsLevel">المستوى:</label>
+                    <select id="resultsLevel" class="form-control">
+                        <option value="all">جميع المستويات</option>
+                        <option value="1apic">1apic</option>
+                        <option value="2apic">2apic</option>
+                        <option value="3apic">3apic</option>
+                    </select>
+                </div>
+                <div id="resultsList">
+                    <!-- سيتم ملء النتائج هنا بواسطة JavaScript -->
+                </div>
+            </div>
+
+            <div id="newTestTab" class="tab-content">
+                <h3>إنشاء اختبار جديد</h3>
+                <div class="form-group">
+                    <label for="testLevel">المستوى:</label>
+                    <select id="testLevel" class="form-control">
+                        <option value="1apic">1apic</option>
+                        <option value="2apic">2apic</option>
+                        <option value="3apic">3apic</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="testQuestions">عدد الأسئلة:</label>
+                    <input type="number" id="testQuestions" class="form-control" value="20" min="1" max="50">
+                </div>
+                <button id="createTestBtn" class="btn">
+                    <i class="fas fa-plus"></i>
+                    إنشاء اختبار
+                </button>
+            </div>
+        </div>
+
+        <!-- واجهة الاختبار -->
+        <div id="quizScreen" class="quiz-container hidden">
+            <div id="quizHeader">
+                <h2>الاختبار الأسبوعي</h2>
+                <div id="quizInfo">
+                    <span id="studentInfo"></span>
+                    <span id="timer">الوقت المتبقي: <span id="timeLeft">01:00:00</span></span>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="quizProgress" style="width: 5%"></div>
+            </div>
+            
+            <div id="quizQuestions">
+                <!-- سيتم ملء الأسئلة هنا بواسطة JavaScript -->
+            </div>
+            <div class="navigation">
+                <button id="prevQuestion" class="btn">
+                    <i class="fas fa-arrow-right"></i>
+                    السابق
+                </button>
+                <button id="nextQuestion" class="btn">
+                    التالي
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button id="submitQuiz" class="btn">
+                    <i class="fas fa-flag-checkered"></i>
+                    إنهاء الاختبار
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة النتيجة المؤقتة -->
+    <div id="resultPopup" class="result-popup hidden">
+        <div class="result-content">
+            <h2>نتيجة الاختبار</h2>
+            <div id="studentResultInfo"></div>
+            <div class="score" id="finalScore">0/20</div>
+            <p id="resultMessage"></p>
+            <div class="result-actions">
+                <button id="closeResultBtn" class="btn">
+                    <i class="fas fa-home"></i>
+                    العودة إلى الصفحة الرئيسية
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات التطبيق
+        const appData = {
+            currentScreen: 'main',
+            currentLevel: '',
+            currentStudent: '',
+            currentStudentId: '',
+            questions: JSON.parse(localStorage.getItem('questions')) || {},
+            results: JSON.parse(localStorage.getItem('results')) || {},
+            currentTest: [],
+            currentQuestionIndex: 0,
+            studentAnswers: [],
+            timer: null,
+            timeLeft: 3600 // 1 ساعة بالثواني
+        };
+
+        // تهيئة البيانات إذا كانت فارغة
+        if (!appData.questions['1apic']) appData.questions['1apic'] = [];
+        if (!appData.questions['2apic']) appData.questions['2apic'] = [];
+        if (!appData.questions['3apic']) appData.questions['3apic'] = [];
+
+        // عناصر DOM
+        const elements = {
+            mainScreen: document.getElementById('mainScreen'),
+            studentForm: document.getElementById('studentForm'),
+            teacherLogin: document.getElementById('teacherLogin'),
+            teacherPanel: document.getElementById('teacherPanel'),
+            quizScreen: document.getElementById('quizScreen'),
+            teacherBtn: document.getElementById('teacherBtn'),
+            startQuizBtn: document.getElementById('startQuizBtn'),
+            confirmStudentBtn: document.getElementById('confirmStudentBtn'),
+            confirmTeacherBtn: document.getElementById('confirmTeacherBtn'),
+            logoutTeacherBtn: document.getElementById('logoutTeacherBtn'),
+            studentName: document.getElementById('studentName'),
+            studentId: document.getElementById('studentId'),
+            studentLevel: document.getElementById('studentLevel'),
+            teacherCode: document.getElementById('teacherCode'),
+            questionsList: document.getElementById('questionsList'),
+            resultsList: document.getElementById('resultsList'),
+            quizQuestions: document.getElementById('quizQuestions'),
+            studentInfo: document.getElementById('studentInfo'),
+            timeLeft: document.getElementById('timeLeft'),
+            prevQuestion: document.getElementById('prevQuestion'),
+            nextQuestion: document.getElementById('nextQuestion'),
+            submitQuiz: document.getElementById('submitQuiz'),
+            finalScore: document.getElementById('finalScore'),
+            resultMessage: document.getElementById('resultMessage'),
+            addQuestionBtn: document.getElementById('addQuestionBtn'),
+            questionLevel: document.getElementById('questionLevel'),
+            resultsLevel: document.getElementById('resultsLevel'),
+            testLevel: document.getElementById('testLevel'),
+            testQuestions: document.getElementById('testQuestions'),
+            createTestBtn: document.getElementById('createTestBtn'),
+            quizProgress: document.getElementById('quizProgress'),
+            resultPopup: document.getElementById('resultPopup'),
+            closeResultBtn: document.getElementById('closeResultBtn'),
+            studentResultInfo: document.getElementById('studentResultInfo')
+        };
+
+        // أحداث الأزرار
+        elements.teacherBtn.addEventListener('click', showTeacherLogin);
+        elements.startQuizBtn.addEventListener('click', showStudentForm);
+        elements.confirmStudentBtn.addEventListener('click', startQuiz);
+        elements.confirmTeacherBtn.addEventListener('click', checkTeacherCode);
+        elements.logoutTeacherBtn.addEventListener('click', logoutTeacher);
+        elements.prevQuestion.addEventListener('click', showPreviousQuestion);
+        elements.nextQuestion.addEventListener('click', showNextQuestion);
+        elements.submitQuiz.addEventListener('click', submitQuiz);
+        elements.addQuestionBtn.addEventListener('click', addNewQuestion);
+        elements.resultsLevel.addEventListener('change', displayResults);
+        elements.createTestBtn.addEventListener('click', createNewTest);
+        elements.questionLevel.addEventListener('change', displayQuestions);
+        elements.closeResultBtn.addEventListener('click', closeResultPopup);
+
+        // أحداث التبويبات
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // إزالة النشاط من جميع التبويبات
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // إضافة النشاط للتبويب المختار
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab + 'Tab').classList.add('active');
+            });
+        });
+
+        // وظائف العرض
+        function showScreen(screenName) {
+            // إخفاء جميع الشاشات
+            elements.mainScreen.classList.add('hidden');
+            elements.studentForm.classList.add('hidden');
+            elements.teacherLogin.classList.add('hidden');
+            elements.teacherPanel.classList.add('hidden');
+            elements.quizScreen.classList.add('hidden');
+            
+            // إظهار الشاشة المطلوبة
+            switch(screenName) {
+                case 'main':
+                    elements.mainScreen.classList.remove('hidden');
+                    break;
+                case 'studentForm':
+                    elements.studentForm.classList.remove('hidden');
+                    break;
+                case 'teacherLogin':
+                    elements.teacherLogin.classList.remove('hidden');
+                    break;
+                case 'teacherPanel':
+                    elements.teacherPanel.classList.remove('hidden');
+                    displayQuestions();
+                    displayResults();
+                    break;
+                case 'quiz':
+                    elements.quizScreen.classList.remove('hidden');
+                    break;
+            }
+            
+            appData.currentScreen = screenName;
+        }
+
+        function showTeacherLogin() {
+            showScreen('teacherLogin');
+        }
+
+        function showStudentForm() {
+            showScreen('studentForm');
+        }
+
+        function checkTeacherCode() {
+            if (elements.teacherCode.value === '20102020') {
+                showScreen('teacherPanel');
+            } else {
+                alert('الكود السري غير صحيح!');
+            }
+        }
+
+        function logoutTeacher() {
+            showScreen('main');
+            elements.teacherCode.value = '';
+        }
+
+        function startQuiz() {
+            if (!elements.studentName.value) {
+                alert('يرجى إدخال اسم الطالب');
+                return;
+            }
+            
+            if (!elements.studentId.value) {
+                alert('يرجى إدخال الرقم التسلسلي');
+                return;
+            }
+            
+            appData.currentStudent = elements.studentName.value;
+            appData.currentStudentId = elements.studentId.value;
+            appData.currentLevel = elements.studentLevel.value;
+            
+            // إنشاء اختبار عشوائي من الأسئلة المتاحة
+            const availableQuestions = appData.questions[appData.currentLevel];
+            if (availableQuestions.length < 20) {
+                alert('لا توجد أسئلة كافية لهذا المستوى. يرجى الاتصال بالأستاد.');
+                return;
+            }
+            
+            // اختيار 20 سؤال عشوائي
+            appData.currentTest = [];
+            const shuffled = [...availableQuestions].sort(() => 0.5 - Math.random());
+            appData.currentTest = shuffled.slice(0, 20);
+            
+            // تهيئة إجابات الطالب
+            appData.studentAnswers = new Array(20).fill(null);
+            appData.currentQuestionIndex = 0;
+            
+            // بدء المؤقت
+            startTimer();
+            
+            // إظهار واجهة الاختبار
+            showScreen('quiz');
+            displayQuestion();
+            updateStudentInfo();
+            updateProgressBar();
+        }
+
+        function startTimer() {
+            appData.timeLeft = 3600; // 1 ساعة
+            updateTimerDisplay();
+            
+            if (appData.timer) clearInterval(appData.timer);
+            
+            appData.timer = setInterval(() => {
+                appData.timeLeft--;
+                updateTimerDisplay();
+                
+                if (appData.timeLeft <= 0) {
+                    clearInterval(appData.timer);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(appData.timeLeft / 3600);
+            const minutes = Math.floor((appData.timeLeft % 3600) / 60);
+            const seconds = appData.timeLeft % 60;
+            elements.timeLeft.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateStudentInfo() {
+            elements.studentInfo.textContent = `الطالب: ${appData.currentStudent} (${appData.currentStudentId}) | المستوى: ${appData.currentLevel}`;
+        }
+
+        function updateProgressBar() {
+            const progress = ((appData.currentQuestionIndex + 1) / 20) * 100;
+            elements.quizProgress.style.width = `${progress}%`;
+        }
+
+        function displayQuestion() {
+            const question = appData.currentTest[appData.currentQuestionIndex];
+            if (!question) return;
+            
+            elements.quizQuestions.innerHTML = `
+                <div class="question">
+                    <div class="question-number">السؤال ${appData.currentQuestionIndex + 1} من 20</div>
+                    <div class="question-text">${question.text}</div>
+                    <div class="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option ${appData.studentAnswers[appData.currentQuestionIndex] === index ? 'selected' : ''}" 
+                                 data-index="${index}">
+                                 <span class="option-number">${String.fromCharCode(1633 + index)}</span>
+                                 ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // إضافة أحداث للخيارات
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const selectedIndex = parseInt(this.dataset.index);
+                    appData.studentAnswers[appData.currentQuestionIndex] = selectedIndex;
+                    
+                    // تحديث المظهر
+                    document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            // تحديث أزرار التنقل
+            elements.prevQuestion.disabled = appData.currentQuestionIndex === 0;
+            elements.nextQuestion.disabled = appData.currentQuestionIndex === 19;
+            
+            // تحديث شريط التقدم
+            updateProgressBar();
+        }
+
+        function showPreviousQuestion() {
+            if (appData.currentQuestionIndex > 0) {
+                appData.currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+
+        function showNextQuestion() {
+            if (appData.currentQuestionIndex < 19) {
+                appData.currentQuestionIndex++;
+                displayQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            clearInterval(appData.timer);
+            
+            // حساب النتيجة
+            let score = 0;
+            appData.currentTest.forEach((question, index) => {
+                if (appData.studentAnswers[index] === question.correct) {
+                    score++;
+                }
+            });
+            
+            // حفظ النتيجة
+            const result = {
+                student: appData.currentStudent,
+                studentId: appData.currentStudentId,
+                level: appData.currentLevel,
+                score: score,
+                total: 20,
+                date: new Date().toLocaleDateString('ar-EG'),
+                time: new Date().toLocaleTimeString('ar-EG'),
+                answers: [...appData.studentAnswers]
+            };
+            
+            if (!appData.results[appData.currentLevel]) {
+                appData.results[appData.currentLevel] = [];
+            }
+            
+            appData.results[appData.currentLevel].push(result);
+            localStorage.setItem('results', JSON.stringify(appData.results));
+            
+            // عرض النتيجة في نافذة منبثقة
+            showResultPopup(score);
+        }
+
+        function showResultPopup(score) {
+            elements.finalScore.textContent = `${score}/20`;
+            elements.studentResultInfo.textContent = `الطالب: ${appData.currentStudent} (${appData.currentStudentId}) | المستوى: ${appData.currentLevel}`;
+            
+            // رسالة حسب النتيجة
+            if (score >= 18) {
+                elements.resultMessage.textContent = 'ممتاز! أداء رائع.';
+                elements.resultMessage.className = 'message success';
+            } else if (score >= 15) {
+                elements.resultMessage.textContent = 'جيد جداً! استمر في العمل الجاد.';
+                elements.resultMessage.className = 'message success';
+            } else if (score >= 10) {
+                elements.resultMessage.textContent = 'مقبول، لكن يمكنك تحسين أدائك.';
+                elements.resultMessage.className = 'message info';
+            } else {
+                elements.resultMessage.textContent = 'يحتاج إلى مزيد من الجهد والمذاكرة.';
+                elements.resultMessage.className = 'message error';
+            }
+            
+            // إظهار نافذة النتيجة
+            elements.resultPopup.classList.remove('hidden');
+        }
+
+        function closeResultPopup() {
+            // إعادة تعيين النموذج
+            elements.studentName.value = '';
+            elements.studentId.value = '';
+            elements.studentLevel.value = '1apic';
+            
+            // إخفاء نافذة النتيجة والعودة للواجهة الرئيسية
+            elements.resultPopup.classList.add('hidden');
+            showScreen('main');
+        }
+
+        // وظائف لوحة المعلم
+        function displayQuestions() {
+            const level = elements.questionLevel.value;
+            const questions = appData.questions[level] || [];
+            
+            elements.questionsList.innerHTML = '';
+            
+            if (questions.length === 0) {
+                elements.questionsList.innerHTML = '<p class="message info">لا توجد أسئلة لهذا المستوى.</p>';
+                return;
+            }
+            
+            questions.forEach((question, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question-item';
+                questionElement.innerHTML = `
+                    <div class="question-content">
+                        <strong>${index + 1}. ${question.text}</strong>
+                        <div class="options-list">
+                            ${question.options.map((option, optIndex) => `
+                                <div>${String.fromCharCode(1633 + optIndex)}) ${option} ${optIndex === question.correct ? '✓' : ''}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-sm edit-question" data-index="${index}">
+                            <i class="fas fa-edit"></i>
+                            تعديل
+                        </button>
+                        <button class="btn btn-sm delete-question" data-index="${index}">
+                            <i class="fas fa-trash"></i>
+                            حذف
+                        </button>
+                    </div>
+                `;
+                
+                elements.questionsList.appendChild(questionElement);
+            });
+            
+            // إضافة أحداث لأزرار الحذف والتعديل
+            document.querySelectorAll('.delete-question').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    deleteQuestion(level, index);
+                });
+            });
+            
+            document.querySelectorAll('.edit-question').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    editQuestion(level, index);
+                });
+            });
+        }
+
+        function addNewQuestion() {
+            const level = elements.questionLevel.value;
+            const text = prompt('أدخل نص السؤال:');
+            if (!text) return;
+            
+            const options = [];
+            for (let i = 0; i < 3; i++) {
+                const option = prompt(`أدخل الخيار ${i + 1}:`);
+                if (!option) return;
+                options.push(option);
+            }
+            
+            const correct = parseInt(prompt('أدخل رقم الإجابة الصحيحة (1, 2, أو 3):')) - 1;
+            if (isNaN(correct) || correct < 0 || correct > 2) {
+                alert('رقم الإجابة الصحيحة غير صحيح!');
+                return;
+            }
+            
+            const newQuestion = {
+                text: text,
+                options: options,
+                correct: correct
+            };
+            
+            appData.questions[level].push(newQuestion);
+            localStorage.setItem('questions', JSON.stringify(appData.questions));
+            displayQuestions();
+            alert('تم إضافة السؤال بنجاح!');
+        }
+
+        function deleteQuestion(level, index) {
+            if (confirm('هل أنت متأكد من حذف هذا السؤال؟')) {
+                appData.questions[level].splice(index, 1);
+                localStorage.setItem('questions', JSON.stringify(appData.questions));
+                displayQuestions();
+            }
+        }
+
+        function editQuestion(level, index) {
+            const question = appData.questions[level][index];
+            
+            const newText = prompt('نص السؤال الجديد:', question.text);
+            if (!newText) return;
+            
+            const newOptions = [];
+            for (let i = 0; i < 3; i++) {
+                const option = prompt(`الخيار ${i + 1} الجديد:`, question.options[i]);
+                if (!option) return;
+                newOptions.push(option);
+            }
+            
+            const newCorrect = parseInt(prompt('رقم الإجابة الصحيحة الجديد (1, 2, أو 3):', question.correct + 1)) - 1;
+            if (isNaN(newCorrect) || newCorrect < 0 || newCorrect > 2) {
+                alert('رقم الإجابة الصحيحة غير صحيح!');
+                return;
+            }
+            
+            question.text = newText;
+            question.options = newOptions;
+            question.correct = newCorrect;
+            
+            localStorage.setItem('questions', JSON.stringify(appData.questions));
+            displayQuestions();
+            alert('تم تعديل السؤال بنجاح!');
+        }
+
+        function displayResults() {
+            const level = elements.resultsLevel.value;
+            let results = [];
+            
+            if (level === 'all') {
+                results = [...(appData.results['1apic'] || []), 
+                          ...(appData.results['2apic'] || []), 
+                          ...(appData.results['3apic'] || [])];
+            } else {
+                results = appData.results[level] || [];
+            }
+            
+            elements.resultsList.innerHTML = '';
+            
+            if (results.length === 0) {
+                elements.resultsList.innerHTML = '<p class="message info">لا توجد نتائج.</p>';
+                return;
+            }
+            
+            // ترتيب النتائج حسب التاريخ (الأحدث أولاً)
+            results.sort((a, b) => new Date(b.date + ' ' + b.time) - new Date(a.date + ' ' + a.time));
+            
+            results.forEach((result, index) => {
+                const resultElement = document.createElement('div');
+                resultElement.className = 'result-item';
+                resultElement.innerHTML = `
+                    <div class="result-info">
+                        <strong>${result.student} (${result.studentId})</strong> - ${result.level}
+                        <div>النتيجة: ${result.score}/${result.total} - ${result.date} ${result.time}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-sm view-details" data-index="${index}" data-level="${result.level}">
+                            <i class="fas fa-info-circle"></i>
+                            تفاصيل
+                        </button>
+                        <button class="btn btn-sm delete-result" data-index="${index}" data-level="${result.level}">
+                            <i class="fas fa-trash"></i>
+                            حذف
+                        </button>
+                    </div>
+                `;
+                
+                elements.resultsList.appendChild(resultElement);
+            });
+            
+            // إضافة أحداث لأزرار التفاصيل والحذف
+            document.querySelectorAll('.view-details').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    const level = this.dataset.level;
+                    viewResultDetails(level, index);
+                });
+            });
+            
+            document.querySelectorAll('.delete-result').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    const level = this.dataset.level;
+                    deleteResult(level, index);
+                });
+            });
+        }
+
+        function viewResultDetails(level, index) {
+            const result = appData.results[level][index];
+            let details = `الطالب: ${result.student}\nالرقم التسلسلي: ${result.studentId}\nالمستوى: ${result.level}\nالنتيجة: ${result.score}/${result.total}\nالتاريخ: ${result.date} ${result.time}\n\n`;
+            
+            // عرض تفاصيل الإجابات
+            const questions = appData.questions[level];
+            result.answers.forEach((answer, qIndex) => {
+                if (qIndex < questions.length) {
+                    const question = questions[qIndex];
+                    const isCorrect = answer === question.correct;
+                    details += `س ${qIndex + 1}: ${isCorrect ? '✓' : '✗'}\n`;
+                    details += `إجابتك: ${answer !== null ? question.options[answer] : 'لم يتم الإجابة'}\n`;
+                    details += `الإجابة الصحيحة: ${question.options[question.correct]}\n\n`;
+                }
+            });
+            
+            alert(details);
+        }
+
+        function deleteResult(level, index) {
+            if (confirm('هل أنت متأكد من حذف هذه النتيجة؟')) {
+                appData.results[level].splice(index, 1);
+                localStorage.setItem('results', JSON.stringify(appData.results));
+                displayResults();
+            }
+        }
+
+        function createNewTest() {
+            const level = elements.testLevel.value;
+            const count = parseInt(elements.testQuestions.value);
+            
+            if (appData.questions[level].length < count) {
+                alert(`لا توجد أسئلة كافية. يتوفر ${appData.questions[level].length} سؤال فقط.`);
+                return;
+            }
+            
+            alert(`تم إنشاء اختبار جديد للمستوى ${level} يحتوي على ${count} سؤال.`);
+            // في التطبيق الحقيقي، قد نريد حفظ هذا الاختبار بشكل منفصل
+        }
+
+        // تهيئة التطبيق
+        function initApp() {
+            showScreen('main');
+            
+            // إضافة بعض الأسئلة الافتراضية إذا لم تكن موجودة
+            if (appData.questions['1apic'].length === 0) {
+                appData.questions['1apic'] = [
+                    {
+                        text: "ما هو ناتج جمع ٥ + ٧؟",
+                        options: ["١٠", "١١", "١٢"],
+                        correct: 2
+                    },
+                    {
+                        text: "ما هو الحيوان الذي يعرف بـ'سفينة الصحراء'؟",
+                        options: ["الحصان", "الجمل", "الفيل"],
+                        correct: 1
+                    }
+                ];
+                localStorage.setItem('questions', JSON.stringify(appData.questions));
+            }
+        }
+
+        // بدء التطبيق
+        initApp();
+    </script>
+</body>
+</html>
